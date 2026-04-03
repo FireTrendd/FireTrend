@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FIRETREND - Trending Products Dashboard</title>
+    <title>FIRETREND - Product Intelligence</title>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,10 @@
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 16px;
+            padding: 20px;
         }
 
         .container {
@@ -23,26 +23,16 @@
             margin: 0 auto;
         }
 
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 24px;
-        }
-
-        .logo {
-            font-size: 48px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            margin-bottom: 30px;
         }
 
         h1 {
             font-size: 42px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-            letter-spacing: 2px;
         }
 
         .tagline {
@@ -51,232 +41,164 @@
             margin-top: 5px;
         }
 
-        .stats {
+        /* Filter Bar - Like Excel */
+        .filter-bar {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
             display: flex;
-            gap: 12px;
-            margin-bottom: 24px;
             flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .stat-card {
-            background: white;
-            padding: 12px 20px;
-            border-radius: 16px;
-            text-align: center;
+        .filter-item {
             flex: 1;
-            min-width: 90px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 130px;
         }
 
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #764ba2;
-        }
-
-        .stat-label {
+        .filter-item label {
+            display: block;
             font-size: 11px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .filter-section {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 24px;
-        }
-
-        .filter-group {
-            margin-bottom: 12px;
-        }
-
-        .filter-label {
-            font-size: 13px;
             font-weight: bold;
             color: #555;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
         }
 
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 25px;
-            font-size: 13px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .filter-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: transparent;
-        }
-
-        .search-box {
+        .filter-item select, .filter-item input {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 14px;
-            margin-bottom: 15px;
-            outline: none;
-        }
-
-        .search-box:focus {
-            border-color: #764ba2;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            margin-bottom: 30px;
-        }
-
-        .product-card {
             background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
         }
 
-        .product-card:active {
-            transform: scale(0.98);
+        .reset-btn {
+            background: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        .card-header {
-            background: linear-gradient(135deg, #f5f7fa, #e9eef5);
-            padding: 16px;
-            text-align: center;
-            position: relative;
+        /* Table Layout - Like Excel */
+        .products-table {
+            background: white;
+            border-radius: 12px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        .product-image {
-            width: 100px;
-            height: 100px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f5f5f5;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #ddd;
+            cursor: pointer;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .product-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .product-img {
+            width: 50px;
+            height: 50px;
             object-fit: cover;
-            border-radius: 20px;
-            margin: 0 auto;
-            display: block;
+            border-radius: 10px;
+            background: #f0f0f0;
+        }
+
+        .product-name {
+            font-weight: bold;
         }
 
         .trend-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+            display: inline-block;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: bold;
         }
 
-        .trend-badge.trending {
+        .trending {
             background: #ff4757;
             color: white;
         }
 
-        .trend-badge.upcoming {
+        .upcoming {
             background: #a29bfe;
             color: white;
         }
 
-        .card-body {
-            padding: 16px;
-        }
-
-        .product-name {
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
         .price {
-            font-size: 26px;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 6px;
         }
 
-        .price small {
-            font-size: 12px;
-            color: #999;
-        }
-
-        .margin {
-            background: #e8f5e9;
+        .margin-high {
             color: #4caf50;
-            padding: 4px 10px;
-            border-radius: 10px;
-            display: inline-block;
-            font-size: 13px;
             font-weight: bold;
-            margin-bottom: 10px;
         }
 
-        .product-meta {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-            font-size: 12px;
+        .margin-medium {
+            color: #ff9800;
+            font-weight: bold;
         }
 
-        .country {
-            color: #888;
-        }
-
-        .sales {
-            color: #4caf50;
+        .margin-low {
+            color: #f44336;
             font-weight: bold;
         }
 
         .footer {
             text-align: center;
+            margin-top: 20px;
             padding: 20px;
             color: white;
-            font-size: 11px;
+            font-size: 12px;
             opacity: 0.8;
         }
 
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            background: white;
-            border-radius: 20px;
-            color: #999;
-        }
-
-        @media (min-width: 768px) {
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
+        @media (max-width: 768px) {
             body {
-                padding: 24px;
+                padding: 10px;
             }
-            h1 {
-                font-size: 48px;
+            th, td {
+                padding: 8px;
+                font-size: 12px;
             }
-            .product-image {
-                width: 120px;
-                height: 120px;
+            .product-img {
+                width: 40px;
+                height: 40px;
             }
-        }
-
-        @media (min-width: 1024px) {
-            .products-grid {
-                grid-template-columns: repeat(3, 1fr);
+            .filter-bar {
+                flex-direction: column;
+            }
+            .filter-item {
+                width: 100%;
             }
         }
     </style>
@@ -284,163 +206,252 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">🔥📊</div>
-            <h1>FIRETREND</h1>
-            <div class="tagline">Real-time Trending Products | Profit Analytics</div>
+            <h1>🔥 FIRETREND</h1>
+            <div class="tagline">Product Intelligence | Profit Analytics | Market Trends</div>
         </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="totalProducts">0</div>
-                <div class="stat-label">Products</div>
+        <!-- Excel-like Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-item">
+                <label>🌍 COUNTRY</label>
+                <select id="filterCountry">
+                    <option value="all">All Countries</option>
+                    <option value="India">🇮🇳 India</option>
+                    <option value="USA">🇺🇸 USA</option>
+                    <option value="UAE">🇦🇪 UAE</option>
+                    <option value="UK">🇬🇧 UK</option>
+                    <option value="Germany">🇩🇪 Germany</option>
+                    <option value="Canada">🇨🇦 Canada</option>
+                </select>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="trendingCount">0</div>
-                <div class="stat-label">🔥 Trending</div>
+            <div class="filter-item">
+                <label>💰 PRICE RANGE</label>
+                <select id="filterPrice">
+                    <option value="all">All Prices</option>
+                    <option value="0-25">Under $25</option>
+                    <option value="25-50">$25 - $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100-500">$100 - $500</option>
+                </select>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="avgMargin">0%</div>
-                <div class="stat-label">Avg Margin</div>
+            <div class="filter-item">
+                <label>📈 PROFIT MARGIN</label>
+                <select id="filterMargin">
+                    <option value="all">All Margins</option>
+                    <option value="50-100">50%+ (High)</option>
+                    <option value="30-50">30-50% (Medium)</option>
+                    <option value="0-30">Below 30% (Low)</option>
+                </select>
             </div>
+            <div class="filter-item">
+                <label>📊 UNITS SOLD</label>
+                <select id="filterSales">
+                    <option value="all">All Sales</option>
+                    <option value="10000">10,000+ sold</option>
+                    <option value="5000-10000">5,000 - 10,000</option>
+                    <option value="1000-5000">1,000 - 5,000</option>
+                    <option value="0-1000">Below 1,000</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label>🏷️ CATEGORY</label>
+                <select id="filterCategory">
+                    <option value="all">All Products</option>
+                    <option value="trending">🔥 Trending Now</option>
+                    <option value="upcoming">🚀 Upcoming</option>
+                </select>
+            </div>
+            <button class="reset-btn" id="resetFilters">Reset Filters</button>
         </div>
 
-        <div class="filter-section">
-            <input type="text" class="search-box" id="searchInput" placeholder="🔍 Search products...">
-            
-            <div class="filter-group">
-                <div class="filter-label">🌍 Country</div>
-                <div class="filter-buttons" id="countryFilters">
-                    <button class="filter-btn active" data-country="all">All</button>
-                    <button class="filter-btn" data-country="India">🇮🇳 India</button>
-                    <button class="filter-btn" data-country="USA">🇺🇸 USA</button>
-                    <button class="filter-btn" data-country="UAE">🇦🇪 UAE</button>
-                    <button class="filter-btn" data-country="UK">🇬🇧 UK</button>
-                </div>
-            </div>
-            
-            <div class="filter-group">
-                <div class="filter-label">🏷️ Category</div>
-                <div class="filter-buttons" id="categoryFilters">
-                    <button class="filter-btn active" data-category="all">All</button>
-                    <button class="filter-btn" data-category="trending">🔥 Trending</button>
-                    <button class="filter-btn" data-category="upcoming">🚀 Upcoming</button>
-                </div>
-            </div>
+        <!-- Excel-like Table -->
+        <div class="products-table">
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable(0)">📦 Product ⬍</th>
+                        <th onclick="sortTable(1)">💰 Price ⬍</th>
+                        <th onclick="sortTable(2)">🌍 Country ⬍</th>
+                        <th onclick="sortTable(3)">📈 Margin ⬍</th>
+                        <th onclick="sortTable(4)">📊 Sold ⬍</th>
+                        <th onclick="sortTable(5)">🏷️ Trend ⬍</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data loaded here -->
+                </tbody>
+            </table>
         </div>
-
-        <div class="products-grid" id="productsGrid"></div>
 
         <div class="footer">
-            📊 Data updates daily | Last update: April 3, 2026<br>
-            🎯 High margin products | 🔥 Trending now | 🚀 Upcoming opportunities
+            📊 Data updates daily | Click column headers to sort | Last update: April 3, 2026
         </div>
     </div>
 
     <script>
-        const productsData = [
-            { name: "Wireless Earbuds Pro", price: 49.99, margin: 65, trend: "trending", image: "https://placehold.co/400x400/667eea/white?text=🎧", country: "USA", sales: "12.5K" },
-            { name: "Smart Fitness Ring", price: 89.99, margin: 58, trend: "trending", image: "https://placehold.co/400x400/764ba2/white?text=💍", country: "India", sales: "8.2K" },
-            { name: "Portable Solar Charger", price: 39.99, margin: 52, trend: "trending", image: "https://placehold.co/400x400/ff4757/white?text=☀️", country: "UAE", sales: "6.8K" },
-            { name: "Reusable Food Lids", price: 19.99, margin: 70, trend: "upcoming", image: "https://placehold.co/400x400/a29bfe/white?text=🥗", country: "UK", sales: "3.4K" },
-            { name: "Mini Air Purifier", price: 59.99, margin: 55, trend: "trending", image: "https://placehold.co/400x400/4caf50/white?text=💨", country: "India", sales: "9.1K" },
-            { name: "Foldable Laptop Stand", price: 29.99, margin: 62, trend: "upcoming", image: "https://placehold.co/400x400/ff9800/white?text=💻", country: "USA", sales: "4.7K" },
-            { name: "Smart Watch Pro", price: 149.99, margin: 55, trend: "trending", image: "https://placehold.co/400x400/2196f3/white?text=⌚", country: "UAE", sales: "15.2K" },
-            { name: "Yoga Mat Premium", price: 39.99, margin: 70, trend: "trending", image: "https://placehold.co/400x400/9c27b0/white?text=🧘", country: "India", sales: "11.3K" },
-            { name: "LED Strip Lights", price: 24.99, margin: 65, trend: "upcoming", image: "https://placehold.co/400x400/00bcd4/white?text=💡", country: "UK", sales: "5.9K" },
-            { name: "Phone Gimbal", price: 79.99, margin: 55, trend: "trending", image: "https://placehold.co/400x400/e91e63/white?text=📱", country: "USA", sales: "7.4K" }
+        // Product Database
+        const products = [
+            { name: "Wireless Earbuds Pro", price: 49.99, country: "USA", margin: 65, sold: 12500, trend: "trending", image: "https://placehold.co/200x200/667eea/white?text=🎧" },
+            { name: "Smart Fitness Ring", price: 89.99, country: "India", margin: 58, sold: 8200, trend: "trending", image: "https://placehold.co/200x200/764ba2/white?text=💍" },
+            { name: "Portable Solar Charger", price: 39.99, country: "UAE", margin: 52, sold: 6800, trend: "trending", image: "https://placehold.co/200x200/ff4757/white?text=☀️" },
+            { name: "Reusable Food Lids", price: 19.99, country: "UK", margin: 70, sold: 3400, trend: "upcoming", image: "https://placehold.co/200x200/a29bfe/white?text=🥗" },
+            { name: "Mini Air Purifier", price: 59.99, country: "India", margin: 55, sold: 9100, trend: "trending", image: "https://placehold.co/200x200/4caf50/white?text=💨" },
+            { name: "Foldable Laptop Stand", price: 29.99, country: "USA", margin: 62, sold: 4700, trend: "upcoming", image: "https://placehold.co/200x200/ff9800/white?text=💻" },
+            { name: "Smart Watch Pro", price: 149.99, country: "UAE", margin: 55, sold: 15200, trend: "trending", image: "https://placehold.co/200x200/2196f3/white?text=⌚" },
+            { name: "Yoga Mat Premium", price: 39.99, country: "India", margin: 70, sold: 11300, trend: "trending", image: "https://placehold.co/200x200/9c27b0/white?text=🧘" },
+            { name: "LED Strip Lights", price: 24.99, country: "UK", margin: 65, sold: 5900, trend: "upcoming", image: "https://placehold.co/200x200/00bcd4/white?text=💡" },
+            { name: "Phone Gimbal", price: 79.99, country: "USA", margin: 55, sold: 7400, trend: "trending", image: "https://placehold.co/200x200/e91e63/white?text=📱" },
+            { name: "Noise Cancelling Headphones", price: 199.99, country: "Germany", margin: 60, sold: 5300, trend: "trending", image: "https://placehold.co/200x200/673ab7/white?text=🎧" },
+            { name: "Smart Home Hub", price: 129.99, country: "Canada", margin: 48, sold: 3100, trend: "upcoming", image: "https://placehold.co/200x200/3f51b5/white?text=🏠" }
         ];
 
-        let currentCountry = "all";
-        let currentCategory = "all";
-        let searchTerm = "";
+        let currentFilters = {
+            country: "all",
+            price: "all",
+            margin: "all",
+            sales: "all",
+            category: "all"
+        };
 
-        function updateStats(products) {
-            document.getElementById('totalProducts').textContent = products.length;
-            const trending = products.filter(p => p.trend === 'trending').length;
-            document.getElementById('trendingCount').textContent = trending;
-            const avgMargin = products.reduce((sum, p) => sum + p.margin, 0) / products.length;
-            document.getElementById('avgMargin').textContent = Math.round(avgMargin) + '%';
+        function getMarginClass(margin) {
+            if (margin >= 50) return "margin-high";
+            if (margin >= 30) return "margin-medium";
+            return "margin-low";
         }
 
-        function getFilteredProducts() {
-            let filtered = [...productsData];
-            
-            if (currentCountry !== 'all') {
-                filtered = filtered.filter(p => p.country === currentCountry);
-            }
-            
-            if (currentCategory === 'trending') {
-                filtered = filtered.filter(p => p.trend === 'trending');
-            } else if (currentCategory === 'upcoming') {
-                filtered = filtered.filter(p => p.trend === 'upcoming');
-            }
-            
-            if (searchTerm) {
-                filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
-            }
-            
-            return filtered;
+        function filterProducts() {
+            return products.filter(p => {
+                // Country filter
+                if (currentFilters.country !== "all" && p.country !== currentFilters.country) return false;
+                
+                // Price filter
+                if (currentFilters.price !== "all") {
+                    const [min, max] = currentFilters.price.split("-").map(Number);
+                    if (max && (p.price < min || p.price > max)) return false;
+                    if (!max && p.price < min) return false;
+                }
+                
+                // Margin filter
+                if (currentFilters.margin !== "all") {
+                    const [min, max] = currentFilters.margin.split("-").map(Number);
+                    if (p.margin < min || (max && p.margin > max)) return false;
+                }
+                
+                // Sales filter
+                if (currentFilters.sales !== "all") {
+                    if (currentFilters.sales === "10000" && p.sold < 10000) return false;
+                    if (currentFilters.sales === "5000-10000" && (p.sold < 5000 || p.sold > 10000)) return false;
+                    if (currentFilters.sales === "1000-5000" && (p.sold < 1000 || p.sold > 5000)) return false;
+                    if (currentFilters.sales === "0-1000" && p.sold > 1000) return false;
+                }
+                
+                // Category filter
+                if (currentFilters.category !== "all" && p.trend !== currentFilters.category) return false;
+                
+                return true;
+            });
         }
 
-        function renderProducts() {
-            const products = getFilteredProducts();
-            const grid = document.getElementById('productsGrid');
+        function renderTable() {
+            const filtered = filterProducts();
+            const tbody = document.getElementById('tableBody');
             
-            if (products.length === 0) {
-                grid.innerHTML = '<div class="no-results">😢 No products found. Try changing filters!</div>';
-                updateStats([]);
-                return;
-            }
-            
-            grid.innerHTML = products.map(p => `
-                <div class="product-card">
-                    <div class="card-header">
-                        <img src="${p.image}" alt="${p.name}" class="product-image">
-                        <div class="trend-badge ${p.trend}">
-                            ${p.trend === 'trending' ? '🔥 TRENDING' : '🚀 UPCOMING'}
+            tbody.innerHTML = filtered.map(p => `
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="${p.image}" class="product-img" alt="${p.name}">
+                            <span class="product-name">${p.name}</span>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="product-name">${p.name}</div>
-                        <div class="price">$${p.price} <small>USD</small></div>
-                        <div class="margin">💰 Profit Margin: ${p.margin}%</div>
-                        <div class="product-meta">
-                            <span class="country">🌍 ${p.country}</span>
-                            <span class="sales">📈 ${p.sales} sold</span>
-                        </div>
-                    </div>
-                </div>
+                    </td>
+                    <td class="price">$${p.price}</td>
+                    <td>${p.country}</td>
+                    <td class="${getMarginClass(p.margin)}">${p.margin}%</td>
+                    <td>${p.sold.toLocaleString()}</td>
+                    <td><span class="trend-badge ${p.trend}">${p.trend === 'trending' ? '🔥 TRENDING' : '🚀 UPCOMING'}</span></td>
+                </tr>
             `).join('');
-            
-            updateStats(products);
         }
 
         function setupFilters() {
-            document.querySelectorAll('#countryFilters .filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('#countryFilters .filter-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCountry = this.dataset.country;
-                    renderProducts();
-                });
+            document.getElementById('filterCountry').addEventListener('change', (e) => {
+                currentFilters.country = e.target.value;
+                renderTable();
             });
-            
-            document.querySelectorAll('#categoryFilters .filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('#categoryFilters .filter-btn').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentCategory = this.dataset.category;
-                    renderProducts();
-                });
+            document.getElementById('filterPrice').addEventListener('change', (e) => {
+                currentFilters.price = e.target.value;
+                renderTable();
             });
-            
-            document.getElementById('searchInput').addEventListener('input', function(e) {
-                searchTerm = e.target.value;
-                renderProducts();
+            document.getElementById('filterMargin').addEventListener('change', (e) => {
+                currentFilters.margin = e.target.value;
+                renderTable();
+            });
+            document.getElementById('filterSales').addEventListener('change', (e) => {
+                currentFilters.sales = e.target.value;
+                renderTable();
+            });
+            document.getElementById('filterCategory').addEventListener('change', (e) => {
+                currentFilters.category = e.target.value;
+                renderTable();
+            });
+            document.getElementById('resetFilters').addEventListener('click', () => {
+                currentFilters = { country: "all", price: "all", margin: "all", sales: "all", category: "all" };
+                document.getElementById('filterCountry').value = "all";
+                document.getElementById('filterPrice').value = "all";
+                document.getElementById('filterMargin').value = "all";
+                document.getElementById('filterSales').value = "all";
+                document.getElementById('filterCategory').value = "all";
+                renderTable();
             });
         }
 
-        renderProducts();
+        let sortColumn = 0;
+        let sortDirection = "asc";
+
+        function sortTable(column) {
+            if (sortColumn === column) {
+                sortDirection = sortDirection === "asc" ? "desc" : "asc";
+            } else {
+                sortColumn = column;
+                sortDirection = "asc";
+            }
+            
+            const filtered = filterProducts();
+            filtered.sort((a, b) => {
+                let valA, valB;
+                switch(column) {
+                    case 0: valA = a.name; valB = b.name; break;
+                    case 1: valA = a.price; valB = b.price; break;
+                    case 2: valA = a.country; valB = b.country; break;
+                    case 3: valA = a.margin; valB = b.margin; break;
+                    case 4: valA = a.sold; valB = b.sold; break;
+                    case 5: valA = a.trend; valB = b.trend; break;
+                    default: return 0;
+                }
+                if (valA < valB) return sortDirection === "asc" ? -1 : 1;
+                if (valA > valB) return sortDirection === "asc" ? 1 : -1;
+                return 0;
+            });
+            
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = filtered.map(p => `
+                <tr>
+                    <td>
+                        <div class="product-cell">
+                            <img src="${p.image}" class="product-img" alt="${p.name}">
+                            <span class="product-name">${p.name}</span>
+                        </div>
+                    </td>
+                    <td class="price">$${p.price}</td>
+                    <td>${p.country}</td>
+                    <td class="${getMarginClass(p.margin)}">${p.margin}%</td>
+                    <td>${p.sold.toLocaleString()}</td>
+                    <td><span class="trend-badge ${p.trend}">${p.trend === 'trending' ? '🔥 TRENDING' : '🚀 UPCOMING'}</span></td>
+                </tr>
+            `).join('');
+        }
+
+        renderTable();
         setupFilters();
     </script>
 </body>
